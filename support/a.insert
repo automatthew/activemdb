@@ -1,0 +1,7 @@
+INSERT INTO ActivityLookup (ActivityID, ActivitySeq, ActivityCode, ActivityDesc) VALUES (1,0000000000000001.,"Conversation","QA conversation with the contact - face to face")
+INSERT INTO ActivityLookup (ActivityID, ActivitySeq, ActivityCode, ActivityDesc) VALUES (2,0000000000000002.,"Phone Call","A Phone Call with the contact")
+INSERT INTO ActivityLookup (ActivityID, ActivitySeq, ActivityCode, ActivityDesc) VALUES (3,0000000000000003.,"Mail","Sent something to the contact via mail")
+INSERT INTO ActivityLookup (ActivityID, ActivitySeq, ActivityCode, ActivityDesc) VALUES (4,0000000000000004.,"eMail","Sent something to the contact via email")
+INSERT INTO ActivityLookup (ActivityID, ActivitySeq, ActivityCode, ActivityDesc) VALUES (5,0000000000000005.,"Visit","Visited the contact for a delivery or conversation")
+INSERT INTO ActivityLookup (ActivityID, ActivitySeq, ActivityCode, ActivityDesc) VALUES (6,0000000000000006.,"Meeting","Had a meeting with the contact")
+INSERT INTO ActivityLookup (ActivityID, ActivitySeq, ActivityCode, ActivityDesc) VALUES (7,0000000000000007.,"Research","Research is needed on a topic for followup/action")
