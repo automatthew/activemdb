@@ -2,8 +2,3 @@ require "#{File.dirname(__FILE__)}/lib/active_mdb"
 require 'pp'
 include MDBTools
 
-# pp "Loading db/Andreeva.mdb"
-# @mdb = MDB.new 'db/Andreeva.mdb'
-# @contacts = @mdb.contacts
-# @osher = @contacts.find_first :last_name => 'Osher'
-
