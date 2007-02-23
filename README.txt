@@ -1,26 +1,36 @@
-activemdb
+ActiveMDB
     by Matthew King
-    http://www.automatthew.com
+    http://rubyforge.org/projects/activemdb/
 
 == DESCRIPTION:
   
-FIX (describe your package)
+Lib for getting info out of MS Access (.mdb) files, which uses ActiveRecord-ish reflection to parse table and column names. 
+
+Intended for exploration and migration, not production. ActiveMDB relies on the binaries from the MDB Tools project (http://mdbtools.sourceforge.net/).
 
 == FEATURES/PROBLEMS:
   
-* FIX (list of features or problems)
+* MDBTools provides a thin wrapper around mdb-tables, mdb-schema, mdb-sql, and mdb-export
+* MDB, Table, and Record classes do reflection to provide easy attribute readers
+* I really need to refactor the above classes to something more like ActiveRecord::Base, so that you can subclass to make models.
 
 == SYNOPSIS:
 
-  FIX (code sample of usage)
+  @mdb = MDB.new('db/sample.mdb', :exclude => 'lookups')
+  @employees = @mdb.employees
+
+  # in the find_* methods, the entries in the hash 
+  # get turned into "WHERE #{key} like %#{value}%" conditions,
+  # unless the column is a boolean, in which case the WHERE uses "="
+  @employees.find_first :f_name => 'Matthew', :l_name => 'King'
 
 == REQUIREMENTS:
 
-* FIX (list of requirements)
+* http://mdbtools.sourceforge.net/
 
 == INSTALL:
 
-* FIX (sudo gem install, anything else)
+* Sadly, no easy install at this time.  
 
 == LICENSE:
 
