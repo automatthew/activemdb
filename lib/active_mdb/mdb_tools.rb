@@ -22,7 +22,6 @@ module MDBTools
     table_name
   end
   
-  # assumes line break == '\n'
   def mdb_tables(mdb_file, options = {})
     included, excluded = options[:include], options[:exclude]
     return `mdb-tables -1 #{mdb_file}`.split(LINEBREAK) if not (included || excluded)
@@ -116,19 +115,7 @@ module MDBTools
     end
   end
   
-  # def csv_to_hashes(csv_text)
-  #   arrays = CSV::Reader.parse(csv_text)
-  #   headers = arrays.shift
-  #   arrays.collect do |record|
-  #     record_hash = Hash.new
-  #     until record.empty? do
-  #       headers.each do |header|
-  #         record_hash[header] = record.shift
-  #       end
-  #     end
-  #     record_hash
-  #   end
-  # end
+
   
   def methodize(table_name)
     underscore table_name

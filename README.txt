@@ -1,16 +1,15 @@
 ActiveMDB
-    by Matthew King
-    http://rubyforge.org/projects/activemdb/
+by Matthew King
+http://rubyforge.org/projects/activemdb/
 
 == DESCRIPTION:
   
 Lib for getting info out of MS Access (.mdb) files, which uses ActiveRecord-ish reflection to parse table and column names. 
 
-Intended for exploration and migration, not production. ActiveMDB relies on the binaries from the MDB Tools project (http://mdbtools.sourceforge.net/).
+Intended for exploration and migration, not production. ActiveMDB provides a thin wrapper around the mdb-tables, mdb-schema, mdb-sql, and mdb-export binaries from Brian Bruns's MDB Tools project (http://mdbtools.sourceforge.net/).
 
 == FEATURES/PROBLEMS:
   
-* MDBTools provides a thin wrapper around mdb-tables, mdb-schema, mdb-sql, and mdb-export
 * MDB, Table, and Record classes do reflection to provide easy attribute readers
 * I really need to refactor the above classes to something more like ActiveRecord::Base, so that you can subclass to make models.
 

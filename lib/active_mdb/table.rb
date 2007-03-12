@@ -17,11 +17,6 @@ class Table
     @record_struct = create_record_struct
   end
   
-  # def columns
-  #   @columns = describe_table(mdb_file, table_name).map do |column|
-  #     Column.new_from_describe(column)
-  #   end
-  # end
   
   def [](method_name)
     self.columns.detect {|c| c.method_name == method_name }

@@ -11,15 +11,6 @@ class Record
     create_accessors
   end
   
-  def create_accessors
-    meta = class << self; self; end
-    @struct.members.each do |att|
-      meta.send :define_method, att do
-        @data[att]
-      end
-    end
-  end
-  
   def each(&block)
     @data.members.each {|k| yield k, @data[k] }
   end
@@ -28,5 +19,15 @@ class Record
     self.select {|k,v| v && !v.empty? && v != "0" }
   end
   
+  private
+  
+  def create_accessors
+    meta = class << self; self; end
+    @struct.members.each do |att|
+      meta.send :define_method, att do
+        @data[att]
+      end
+    end
+  end
   
 end
