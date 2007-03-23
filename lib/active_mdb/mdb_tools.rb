@@ -47,18 +47,50 @@ module MDBTools
     tables
   end
     
-  def sql_select(mdb_file, table_name, attributes = nil, conditions ={})
-    attributes ||= ['*']
-    sql = "select #{attributes.join(' ')} from #{table_name} where #{conditions}".dump
+  def sql_select(mdb_file, table_name, attributes = nil, conditions=nil)
+    if attributes.respond_to?(:join)
+      fields = attributes.join(' ') 
+    else
+      attributes ||= '*'
+    end
+    where = conditions ? "where #{conditions}" : ""
+    sql = "select #{attributes} from #{table_name} #{where}"
     mdb_sql(mdb_file, sql)
   end
   
-  
-  def mdb_sql(mdb_file, sql)
-    # puts sql
-    result = `echo -n #{sql} | mdb-sql -Fp -H -d '#{DELIMITER}' #{mdb_file}`.strip
-    arrays = delimited_to_arrays(result)
+  def mdb_sql(mdb_file,sql)
+    command = "mdb-sql -Fp -d '#{DELIMITER}' #{mdb_file}\n"
+    array = []
+    IO.popen(command, 'r+') do |pipe|
+      pipe << "#{sql}\ngo\n"
+      pipe.close_write
+      pipe.readline
+      fields = pipe.readline.chomp.split(DELIMITER)
+      pipe.each do |row|
+        hash = {}
+        row = row.chomp.split(DELIMITER)
+        fields.each_index do |i|
+          hash[fields[i]] = row[i]
+        end
+        array << hash
+      end
+    end
+    array
   end
+  
+  def old_mdb_sql(mdb_file, sql)
+    result = `echo -n #{sql} | mdb-sql -Fp -H -d '#{DELIMITER}' #{mdb_file}`.strip
+    delimited_to_arrays(result)
+  end
+  
+  def fields_for(mdb_file, table)
+    fields = `echo -n 'select * from #{table} where 1 = 2' | mdb-sql -Fp -d '#{DELIMITER}' #{mdb_file}`.chomp
+    fields = fields.split(DELIMITER)
+    fields.shift
+    fields
+  end
+  
+
   
   def compile_conditions(conditions_hash, *args)
     conditions = conditions_hash.sort_by{|k,v| k.to_s}.map do |column_name, value|
@@ -68,6 +100,10 @@ module MDBTools
         "#{column_name} like '%#{value}%'"        
       end
     end.join(' AND ')
+  end
+  
+  def faked_count(*args)
+    sql_select(*args).size
   end
   
   def mdb_export(mdb_file, table_name, options = {})

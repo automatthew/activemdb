@@ -14,8 +14,13 @@ class MDB
     # @tables = create_table_objects
   end
   
-
+  def count(table_name, attribute)
+    MDBTools.faked_count(@mdb_file, table_name, attribute)
+  end
   
+  def column_names(table_name)
+    MDBTools.fields_for(@mdb_file, table_name)
+  end
 
   
   private

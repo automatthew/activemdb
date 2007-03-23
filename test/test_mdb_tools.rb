@@ -69,6 +69,20 @@ class MDBToolsTest < Test::Unit::TestCase
     assert_match /DROP TABLE/, @schema
   end
   
+  def test_mdb_sql
+    result = [{"Department"=>"Human Resources", "Gender"=>"F", "Room"=>"6150", "Title"=>"Vice President", "Emp_Id"=>"1025", "First_Name"=>"Kathy", "Last_Name"=>"Ragerie"}]
+    assert_equal result, mdb_sql(TEST_DB, "select * from Employee where Room = '6150'")
+    bees =  mdb_sql(TEST_DB, "select * from Employee where Last_Name like 'B%'")
+    assert_kind_of Array, bees
+    b = bees.first
+    assert_kind_of Hash, b
+  end
+  
+  def test_fields_for
+    fields = ["First_Name", "Gender", "Title", "Department", "Room", "Emp_Id"]
+    assert_equal fields, fields_for(TEST_DB, 'Employee')
+  end
+
   
   # def test_csv_to_hashes
   #   employee_hash = csv_to_hashes(@employees_csv)
@@ -76,8 +90,8 @@ class MDBToolsTest < Test::Unit::TestCase
   # end
   
   def test_sql_select
-    assert_equal ["Torbati","Yolanda", "F", "Programmer", "Engineering", "6044", "1000"], 
-        sql_select(TEST_DB, 'Employee', ['*'], "First_Name LIKE 'Yolanda'" ).first
+    yo = {"Department"=>"Engineering", "Gender"=>"F", "Room"=>"6044", "Title"=>"Programmer", "Emp_Id"=>"1000", "First_Name"=>"Yolanda", "Last_Name"=>"Torbati"}
+    assert_equal yo, sql_select(TEST_DB, 'Employee', ['*'], "First_Name LIKE 'Yolanda'" ).first
   end
   
   def test_compile_conditions
@@ -87,6 +101,10 @@ class MDBToolsTest < Test::Unit::TestCase
   
   def test_compiled_sql_select
     sql_select(TEST_DB, 'Employee', nil, compile_conditions(:first_name => 'Yolanda'))
+  end
+  
+  def test_count
+    assert_equal 92, faked_count(TEST_DB, 'Room', 'Room', nil)
   end
   
   def test_export_table_to_sql
