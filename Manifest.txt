@@ -2,9 +2,13 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
+db/.DS_Store
+db/not_an_mdb.txt
+db/retreat.mdb
 db/sample.mdb
 irb.rc
 lib/active_mdb.rb
+lib/active_mdb/base.rb
 lib/active_mdb/column.rb
 lib/active_mdb/mdb.rb
 lib/active_mdb/mdb_tools.rb
@@ -12,6 +16,7 @@ lib/active_mdb/record.rb
 lib/active_mdb/table.rb
 support/a.insert
 test/test_activemdb.rb
+test/test_base.rb
 test/test_helper.rb
 test/test_mdb.rb
 test/test_mdb_tools.rb

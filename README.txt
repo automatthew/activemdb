@@ -4,24 +4,38 @@ http://rubyforge.org/projects/activemdb/
 
 == DESCRIPTION:
   
-Lib for getting info out of MS Access (.mdb) files, which uses ActiveRecord-ish reflection to parse table and column names. 
+Library for getting info out of MS Access (.mdb) files, which uses ActiveRecord-ish reflection to parse table and column names. 
 
-Intended for exploration and migration, not production. ActiveMDB provides a thin wrapper around the mdb-tables, mdb-schema, mdb-sql, and mdb-export binaries from Brian Bruns's MDB Tools project (http://mdbtools.sourceforge.net/).
+Intended for exploration and migration, not production. And it's *READ ONLY*, confound it to hell. ActiveMDB provides a thin wrapper around the mdb-tables, mdb-schema, mdb-sql, and mdb-export binaries from Brian Bruns's MDB Tools project (http://mdbtools.sourceforge.net/).
 
 == FEATURES/PROBLEMS:
   
-* MDB, Table, and Record classes do reflection to provide easy attribute readers
-* I really need to refactor the above classes to something more like ActiveRecord::Base, so that you can subclass to make models.
+* MDBTools - Straightforward wrapper around the CLI tools that you get with libmdb
+* ActiveMDB::Base - Subclass to make your models, just like the big shots do.
+
 
 == SYNOPSIS:
 
-  @mdb = MDB.new('db/sample.mdb', :exclude => 'lookups')
-  @employees = @mdb.employees
+  # When your Access database schema conforms to the 37s stylebook:
+  class Bacon < ActiveMDB::Base
+    set_mdb_file 'db/wherefore.mdb'
+  end
 
   # in the find_* methods, the entries in the hash 
   # get turned into "WHERE #{key} like %#{value}%" conditions,
-  # unless the column is a boolean, in which case the WHERE uses "="
-  @employees.find_first :f_name => 'Matthew', :l_name => 'King'
+  # which fails when the column is a boolean, which is a regression from 0.1.0.
+  # I could fix this tonight, but my son is yelling at me to come out for dinner.
+  best_bacon = Bacon.find_all(:rind => 'creamy', :sodium_content => 'Awesome!' )
+  
+  # When it doesn't:
+  class Employee < ActiveMDB::Base
+    set_mdb_file 'db/sample.mdb'
+    set_table_name 'Employee'
+    set_primary_key 'Emp_Id'
+  end
+
+  paula = Employee.find_first(:Department => 'Engineering', :Specialty => 'paulaBeans')
+
 
 == REQUIREMENTS:
 
