@@ -1,5 +1,6 @@
 module MDBTools
-  include Inflector
+  
+  extend self
   
   DELIMITER = '::'
   LINEBREAK = "\n"
@@ -15,12 +16,21 @@ module MDBTools
     mdb_file
   end
   
+  def valid_file?(file)
+    !mdb_version(file).blank?
+  end
+  
+  def mdb_version(file)
+    `mdb-ver #{file} 2> /dev/null`.chomp
+  end
+  
   def check_table(mdb_file, table_name)
     unless mdb_tables(mdb_file).include?(table_name)
       raise ArgumentError, "mdbtools does not think a table named \"#{table_name}\" exists"
     end
     table_name
   end
+  
   
   def mdb_tables(mdb_file, options = {})
     included, excluded = options[:include], options[:exclude]
@@ -118,7 +128,7 @@ module MDBTools
 
   
   def methodize(table_name)
-    underscore table_name
+    Inflector.underscore table_name
   end
   
   def backends

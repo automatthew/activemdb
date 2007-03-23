@@ -28,6 +28,16 @@ class MDBToolsTest < Test::Unit::TestCase
     assert_raise(ArgumentError) { check_file README}
   end
   
+  def test_valid_file
+    assert valid_file?(TEST_DB)
+    assert !valid_file?(NOT_A_DB)
+  end
+  
+  def test_mdb_version
+    assert_equal 'JET3', mdb_version(TEST_DB)
+    assert_equal '', mdb_version(NOT_A_DB)
+  end
+  
   def test_check_table
     assert_nothing_raised { check_table TEST_DB, 'Employee'}
     assert_raises(ArgumentError) { check_table TEST_DB, 'foobarbaz' }
