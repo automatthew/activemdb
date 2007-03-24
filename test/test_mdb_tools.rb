@@ -87,7 +87,7 @@ class MDBToolsTest < Test::Unit::TestCase
   end
   
   def test_field_names_for
-    fields = ["First_Name", "Gender", "Title", "Department", "Room", "Emp_Id"]
+    fields = ["Last_Name","First_Name", "Gender", "Title", "Department", "Room", "Emp_Id"]
     assert_equal fields, field_names_for(TEST_DB, 'Employee')
   end
 

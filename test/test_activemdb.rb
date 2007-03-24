@@ -4,7 +4,7 @@ require File.join(File.dirname(__FILE__), 'test_helper')
 
 class RealWorldTest < Test::Unit::TestCase
   
-  RETREAT = '../db/retreat.mdb'
+  RETREAT = File.join(File.dirname(__FILE__), '..', 'db', 'retreat.mdb')
   
   class Family < ActiveMDB::Base
     set_mdb_file RETREAT
