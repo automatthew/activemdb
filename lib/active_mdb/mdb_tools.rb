@@ -83,11 +83,9 @@ module MDBTools
     delimited_to_arrays(result)
   end
   
-  def fields_for(mdb_file, table)
-    fields = `echo -n 'select * from #{table} where 1 = 2' | mdb-sql -Fp -d '#{DELIMITER}' #{mdb_file}`.chomp
-    fields = fields.split(DELIMITER)
-    fields.shift
-    fields
+  def field_names_for(mdb_file, table)
+    fields = `echo -n 'select * from #{table} where 1 = 2' | mdb-sql -Fp -d '#{DELIMITER}' #{mdb_file}`.chomp.sub(/^\n+/, '')
+    fields.split(DELIMITER)
   end
   
 
@@ -129,10 +127,8 @@ module MDBTools
   end
   
   def describe_table(mdb_file, table_name)
-    command = "describe table \"#{table_name}\"".dump
-    description = `echo -n #{command} | mdb-sql -Fp -d '#{DELIMITER}' #{mdb_file}`.strip
-    arrays = delimited_to_arrays(description)
-    arrays_to_hashes(arrays.shift, arrays)
+    command = "describe table \"#{table_name}\""
+    mdb_sql(mdb_file,command)
   end
   
   def mdb_schema(mdb_file, table_name)

@@ -18,8 +18,14 @@ class MDB
     MDBTools.faked_count(@mdb_file, table_name, attribute)
   end
   
+  def columns(table_name)
+    MDBTools.describe_table(@mdb_file, table_name).map do |column|
+      Column.new_from_describe(column)
+    end
+  end
+  
   def column_names(table_name)
-    MDBTools.fields_for(@mdb_file, table_name)
+    MDBTools.field_names_for(@mdb_file, table_name)
   end
 
   

@@ -69,6 +69,14 @@ class MDBToolsTest < Test::Unit::TestCase
     assert_match /DROP TABLE/, @schema
   end
   
+  def test_describe_table
+    descriptions = describe_table(TEST_DB, 'Employee')
+    assert_kind_of Array, descriptions
+    assert_kind_of Hash, descriptions.first
+    assert_equal 3, descriptions.first.size
+    assert_not_nil descriptions.first['Type']
+  end
+  
   def test_mdb_sql
     result = [{"Department"=>"Human Resources", "Gender"=>"F", "Room"=>"6150", "Title"=>"Vice President", "Emp_Id"=>"1025", "First_Name"=>"Kathy", "Last_Name"=>"Ragerie"}]
     assert_equal result, mdb_sql(TEST_DB, "select * from Employee where Room = '6150'")
@@ -78,9 +86,9 @@ class MDBToolsTest < Test::Unit::TestCase
     assert_kind_of Hash, b
   end
   
-  def test_fields_for
+  def test_field_names_for
     fields = ["First_Name", "Gender", "Title", "Department", "Room", "Emp_Id"]
-    assert_equal fields, fields_for(TEST_DB, 'Employee')
+    assert_equal fields, field_names_for(TEST_DB, 'Employee')
   end
 
   

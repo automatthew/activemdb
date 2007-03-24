@@ -31,6 +31,14 @@ module ActiveMDB
       end
       alias :table_name= :set_table_name
       
+      # Returns an array of column objects for the table associated with this class.
+      def columns
+        unless @columns
+          @columns = @mdb.columns(table_name)
+          # @columns.each {|column| column.primary = column.name == primary_key}
+        end
+        @columns
+      end
       
       def column_names
         @mdb.column_names(table_name)
