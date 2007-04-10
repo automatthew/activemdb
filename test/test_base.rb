@@ -60,18 +60,37 @@ class BaseTest < Test::Unit::TestCase
   end
   
   def test_instantiate
-    hash = [{"Department"=>"Engineering", "Gender"=>"M", "Room"=>"6072", "Title"=>"Programmer", "Emp_Id"=>"1045", "First_Name"=>"Robert", "Last_Name"=>"Weinfeld"}]
+    hash = {"Department"=>"Engineering", "Gender"=>"M", "Room"=>"6072", "Title"=>"Programmer", "Emp_Id"=>"1045", "First_Name"=>"Robert", "Last_Name"=>"Weinfeld"}
     record = Employee.send(:instantiate, hash)
     assert_equal hash, record.instance_variable_get('@attributes')
+    hash = {"Area"=>"135.38","Entity_Handle"=>"9D7A","Room"=>"6004","Room_Type"=>"STOR-GEN"}
+    record = Room.send(:instantiate, hash)
+    assert_kind_of Float, record.instance_variable_get('@attributes')['Area']
   end
   
-  def test_sql_search
-    record = Employee.sql_search(:Room => '6072').first
+  def test_find_from_hash
+    record = Employee.find_from_hash(:Room => '6072').first
     assert_kind_of Employee, record
+    record = Room.find_first(:Area => 135.38)
+    assert_kind_of Room, record
+  end
+  
+  def test_find_where
+    weinstein = Employee.find_where( "Last_Name = 'Weinfeld'").first
+    assert_equal 'Robert', weinstein.First_Name
+  end
+  
+  def test_conditions_from_hash
+    hash = {:Room => '6072'}
+    conditions = "Room LIKE '%6072%'"
+    assert_equal conditions, Employee.conditions_from_hash(hash)
+    hash = {:Area => 45}
+    conditions = "Area = 45"
+    assert_equal conditions, Room.conditions_from_hash(hash)
   end
   
   def test_attribute_magic
-    record = Employee.sql_search(:Room => '6072').first
+    record = Employee.find_from_hash(:Room => '6072').first
     assert_equal '6072', record.Room
   end
   
@@ -80,7 +99,10 @@ class BaseTest < Test::Unit::TestCase
     assert_equal 2, Employee.find_all(:First_Name => 'G').size
   end
   
-
+  def test_column_for
+    assert_kind_of Column, Employee.column_for(:Room)
+    assert_nil Employee.column_for('foo')
+  end
   
 
 end

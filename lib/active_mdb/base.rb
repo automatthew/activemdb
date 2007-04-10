@@ -63,11 +63,11 @@ module ActiveMDB
       
       def find_first(conditions_hash)
         # rekey_hash(conditions_hash)
-        sql_search(conditions_hash).first 
+        find_from_hash(conditions_hash).first 
       end
       
       def find_all(conditions_hash)
-        sql_search(conditions_hash)
+        find_from_hash(conditions_hash)
       end
           
       # borrowed from ActiveRecord
@@ -94,18 +94,52 @@ module ActiveMDB
           end
         end
       end
+          
+
+      def find_where(conditions)
+        MDBTools.sql_select(mdb_file, table_name, nil, conditions).collect! { |record| instantiate(record) }
+      end
+      
+      def find_from_hash(hash)
+        conditions = conditions_from_hash(hash)
+        find_where(conditions)
+      end
       
       # the conditions hash keys are column names, the values are search values
-      # e.g. sql_search(:first_name => 'Matthew', :last_name => 'King')
-      def sql_search(conditions_hash)
-        conditions = MDBTools.compile_conditions(conditions_hash)
-        MDBTools.sql_select(mdb_file, table_name, nil, conditions).collect! { |record| instantiate(record) }
+      # e.g. search_with_hash(:first_name => 'Matthew', :last_name => 'King')
+      def conditions_from_hash(hash)
+        MDBTools.compile_conditions(hash) do |column_name, value|
+          column = column_for(column_name)
+          case column.klass.to_s
+          when 'Fixnum', 'Float'
+            "#{column_name} = #{value}"
+          when 'String'
+            "#{column_name} LIKE '%#{value}%'"
+          when 'Object'
+            value = value ? 1 : 0
+            "#{column_name} IS #{value}"
+          end
+        end
+      end
+      
+      def column_for(column_name)
+        columns.detect {|c| c.name == column_name.to_s}
       end
       
       private
       
+
+      
       def instantiate(record)
-        new(record)
+        new_hash = {}
+        record.each do |name,value|
+          begin
+            new_hash[name] = column_for(name).type_cast(value)
+          rescue
+            raise "No column for #{name}"
+          end
+        end
+        self.new new_hash
       end
       
       

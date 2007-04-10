@@ -59,7 +59,7 @@ module MDBTools
   end
   
   def mdb_sql(mdb_file,sql)
-    command = "mdb-sql -Fp -d '#{DELIMITER}' #{mdb_file}\n"
+    command = "mdb-sql -Fp -d '#{DELIMITER}' #{mdb_file} 2> /dev/null \n"
     array = []
     IO.popen(command, 'r+') do |pipe|
       pipe << "#{sql}\ngo\n"

@@ -18,6 +18,7 @@ class Column
     case type
       when 'Text', 'Character'  then String
       when 'Long Integer'       then Fixnum
+      when 'Double'             then Float
       when 'Currency', 'Float'  then Float
       when 'DateTime (Short)'   then Time
       when 'Boolean'            then Object
@@ -34,6 +35,7 @@ class Column
       when 'Text', 'Character'  then value
       when 'Long Integer'       then value.to_i rescue value ? 1 : 0
       when 'Currency', 'Float'  then value.to_f
+      when 'Double'             then value.to_f
       when 'DateTime (Short)'   then self.class.string_to_time(value)
       when 'Boolean'            then self.class.value_to_boolean(value)
       when 'Decimal'            then self.class.value_to_decimal(value)
