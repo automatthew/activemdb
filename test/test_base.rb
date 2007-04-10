@@ -18,8 +18,6 @@ class BaseTest < Test::Unit::TestCase
     set_primary_key 'Room'
   end
   
-
-  
   def test_setting_mdb_file
     assert_equal TEST_DB, Employee.mdb_file
   end

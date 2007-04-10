@@ -97,7 +97,7 @@ module ActiveMDB
           
 
       def find_where(conditions)
-        MDBTools.sql_select(mdb_file, table_name, nil, conditions).collect! { |record| instantiate(record) }
+        MDBTools.sql_select_where(mdb_file, table_name, nil, conditions).collect! { |record| instantiate(record) }
       end
       
       def find_from_hash(hash)

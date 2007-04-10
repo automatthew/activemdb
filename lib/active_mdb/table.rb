@@ -47,7 +47,7 @@ class Table
   
   def find_all(conditions_hash={})
     if conditions_hash.empty?
-      return sql_select(mdb_file, table_name, nil, '1 = 1').collect {|r| create_record(r)}
+      return sql_select_where(mdb_file, table_name, nil, '1 = 1').collect {|r| create_record(r)}
     end
     rekey_hash(conditions_hash)
     sql_search(conditions_hash).collect {|r| create_record(r) }
@@ -81,7 +81,7 @@ class Table
         "#{column.name} like '%#{value}%'"
       end
     end
-    sql_select(mdb_file, table_name, nil, conditions)
+    sql_select_where(mdb_file, table_name, nil, conditions)
   end
   
   

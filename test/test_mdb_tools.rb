@@ -97,9 +97,9 @@ class MDBToolsTest < Test::Unit::TestCase
   #   assert_equal TORBATI_Y, employee_hash.first
   # end
   
-  def test_sql_select
+  def test_sql_select_where
     yo = {"Department"=>"Engineering", "Gender"=>"F", "Room"=>"6044", "Title"=>"Programmer", "Emp_Id"=>"1000", "First_Name"=>"Yolanda", "Last_Name"=>"Torbati"}
-    assert_equal yo, sql_select(TEST_DB, 'Employee', ['*'], "First_Name LIKE 'Yolanda'" ).first
+    assert_equal yo, sql_select_where(TEST_DB, 'Employee', ['*'], "First_Name LIKE 'Yolanda'" ).first
   end
   
   def test_compile_conditions
@@ -107,8 +107,8 @@ class MDBToolsTest < Test::Unit::TestCase
     assert_equal "baz like '%1%' AND foo like '%bar%' AND nark like '%noo%'", compile_conditions(conditions)
   end
   
-  def test_compiled_sql_select
-    sql_select(TEST_DB, 'Employee', nil, compile_conditions(:first_name => 'Yolanda'))
+  def test_compiled_sql_select_where
+    sql_select_where(TEST_DB, 'Employee', nil, compile_conditions(:first_name => 'Yolanda'))
   end
   
   def test_count
