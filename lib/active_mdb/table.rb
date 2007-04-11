@@ -1,5 +1,6 @@
 # require 'mdb_tools'  
 
+# Deprecated.  So very deprecated.
 class Table
   include MDBTools
   

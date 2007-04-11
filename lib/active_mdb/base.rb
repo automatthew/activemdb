@@ -1,11 +1,10 @@
 module ActiveMDB
+  # Hi, I am an imitation of ActiveRecord.
   class Base
     
     def initialize(attributes=nil)
       @attributes = attributes unless attributes.nil?
     end
-
-    
     
     cattr_accessor :pluralize_table_names, :instance_writer => false
     @@pluralize_table_names = true

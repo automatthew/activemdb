@@ -8,6 +8,8 @@ class Column
     @method_name, @size = methodize(name), size.to_i
   end
   
+  # returns a new Column from a hash with the keys: 
+  # 'Column Name', 'Type', and 'Size'
   def self.new_from_describe(describe_hash)
     self.new(describe_hash["Column Name"], describe_hash["Type"], describe_hash["Size"])
   end
@@ -44,6 +46,8 @@ class Column
     end
   end
   
+  # provided any argument, returns the mdb-tools version 
+  # of truth (which is to say, 1 or 0)
   def self.value_to_boolean(value)
     if value == true || value == false
       value
@@ -52,8 +56,9 @@ class Column
     end
   end
   
+  # Are you a Boolean?
   def boolean?
-    self.type == 'boolean'
+    self.type == 'Boolean'
   end
   
   

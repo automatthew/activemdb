@@ -14,6 +14,7 @@ class MDB
     # @tables = create_table_objects
   end
   
+  # consumer of poor, weak MDBTools.faked_count
   def count(table_name, attribute)
     MDBTools.faked_count(@mdb_file, table_name, attribute)
   end

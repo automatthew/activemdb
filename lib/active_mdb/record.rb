@@ -1,5 +1,6 @@
 # require 'mdb_tools'
 
+# Deprecated way more than Table
 class Record
   include MDBTools
   include Enumerable

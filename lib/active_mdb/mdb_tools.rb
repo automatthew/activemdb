@@ -7,6 +7,7 @@ module MDBTools
   SANITIZER = /^\w\.\_/ # dumb filter for SQL arguments
   BACKENDS = %w{ access mysql oracle postgres sybase }
   
+  # test for existence and usability of file
   def check_file(mdb_file)
     raise ArgumentError, "File not found: #{mdb_file}" unless File.exist?(mdb_file)
     @mdb_version = `mdb-ver #{mdb_file} 2>&1`.chomp
@@ -16,6 +17,7 @@ module MDBTools
     mdb_file
   end
   
+  # runs mdb_version.  A blank version indicates an unusable file
   def valid_file?(file)
     !mdb_version(file).blank?
   end
@@ -123,10 +125,15 @@ module MDBTools
     end.join(' AND ')
   end
   
+  # really dumb way to get a count.  Does a SELECT and call size on the results
   def faked_count(*args)
     sql_select_where(*args).size
   end
   
+  # convenience method, not really used with ActiveMDB.  
+  # Valid options are :format, :headers, and :sanitize, 
+  # which correspond rather directly to the underlying mdb-export arguments.
+  # Defaults to :format => 'sql', :headers => false, :sanitize => true
   def mdb_export(mdb_file, table_name, options = {})
     defaults = {  :format => 'sql',
                   :headers => false,
@@ -149,16 +156,18 @@ module MDBTools
     `mdb-export #{args} #{mdb_file} #{table_name.to_s.dump}`
   end
   
+  # wrapper for DESCRIBE TABLE using mdb-sql
   def describe_table(mdb_file, table_name)
     command = "describe table \"#{table_name}\""
     mdb_sql(mdb_file,command)
   end
   
+  # wrapper for mdb-schema, returns SQL statements
   def mdb_schema(mdb_file, table_name)
     schema = `mdb-schema -T #{table_name.dump} #{mdb_file}`
   end
 
-  
+  # convenience method for mdb_export to output CSV with headers.
   def table_to_csv(mdb_file, table_name)
     mdb_export(mdb_file, table_name, :format => 'csv', :headers => true)
   end
@@ -181,7 +190,8 @@ module MDBTools
   end
   
 
-  
+  # helper to turn table names into standard format method names.
+  # Inside, it's just ActionView::Inflector.underscore
   def methodize(table_name)
     Inflector.underscore table_name
   end
@@ -190,10 +200,13 @@ module MDBTools
     BACKENDS
   end
   
+  # poor, weakly sanitizing gsub!.
   def sanitize!(string)
     string.gsub!(SANITIZER, '')
   end
   
+  # mdb-tools recognizes 1 and 0 as the boolean values.
+  # Make it so.
   def mdb_truth(value)
     case value
     when false
