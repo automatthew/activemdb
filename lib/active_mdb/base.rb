@@ -13,11 +13,13 @@ module ActiveMDB
       attr_accessor :mdb_file
       attr_reader :mdb
       
+      # set the path to the MDB file
       def set_mdb_file(file)
         @mdb_file = file
         @mdb = MDB.new(file)
       end
-    
+      
+      # set the name of the table in the MDB file
       def table_name
         table_name = Inflector.underscore(Inflector.demodulize(self.to_s))
         table_name = Inflector.pluralize(table_name) if pluralize_table_names
@@ -43,10 +45,14 @@ module ActiveMDB
         @mdb.column_names(table_name)
       end
       
+      # returns 'id' unless you overwrite this method using set_primary_key
       def primary_key
         'id'
       end
 
+      # specify the field to be used as a primary key for those
+      # operations that require one.  At this time, that isn't really
+      # anything except count.
       def set_primary_key(value = nil, &block)
         define_attr_method :primary_key, value, &block
       end
@@ -56,20 +62,31 @@ module ActiveMDB
         @mdb.tables.include? table_name
       end
       
+      # How many?  Requires that the primary_key return a valid field.
       def count
         @mdb.count(table_name, primary_key)
       end
       
+      # the conditions hash keys are column names, the values are search values
+      # find_first :superhero_name => 'The Ironist', :powers => 'Wit'
+      #
+      # mdb-sql doesn't implement LIMIT yet, so this method pulls all results and
+      # calls Array#first on them.  Ooky.
       def find_first(conditions_hash)
         # rekey_hash(conditions_hash)
         find_from_hash(conditions_hash).first 
       end
       
+      # the conditions hash keys are column names, the values are search values
+      # find_all :superhero_name => 'The Ironist', :powers => 'Wit'
+      #
+      # mdb-sql doesn't implement LIMIT yet, so this method pulls all results and
+      # calls Array#first on them.  Ooky.
       def find_all(conditions_hash)
         find_from_hash(conditions_hash)
       end
           
-      # borrowed from ActiveRecord
+      # borrowed from ActiveRecord.
       def define_attr_method(name, value=nil, &block)
         sing = class << self; self; end
         sing.send :alias_method, "original_#{name}", name
@@ -94,11 +111,14 @@ module ActiveMDB
         end
       end
           
-
+      # supply a conditions string that would nestle gently in a 
+      # WHERE clause, after the WHERE but before the.
       def find_where(conditions)
         MDBTools.sql_select_where(mdb_file, table_name, nil, conditions).collect! { |record| instantiate(record) }
       end
       
+      # takes a hash where the keys are column names (string or symbol)
+      # and the values are the associated values.
       def find_from_hash(hash)
         conditions = conditions_from_hash(hash)
         find_where(conditions)
@@ -121,13 +141,12 @@ module ActiveMDB
         end
       end
       
+      # given the name of a column, return the Column object
       def column_for(column_name)
         columns.detect {|c| c.name == column_name.to_s}
       end
       
       private
-      
-
       
       def instantiate(record)
         new_hash = {}

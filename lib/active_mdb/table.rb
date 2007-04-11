@@ -23,6 +23,7 @@ class Table
     self.columns.detect {|c| c.method_name == method_name }
   end
   
+  # returns an array of column names
   def column_names
     columns.collect {|x| methodize(x.method_name).to_sym}
   end
@@ -35,16 +36,20 @@ class Table
   def to_csv
     table_to_csv(mdb_file, table_name)
   end
-  
-  def to_sql
-    raise 'not implemented'
-  end
-  
+
+  # returns the first record that meets the equality (sometimes LIKE) conditions
+  # of the supplied hash.  No comparison operators available at the moment.
+  #
+  # find_first :superhero_name => 'The Ironist', :powers => 'Wit'
+  #
+  # mdb-sql doesn't implement LIMIT yet, so this method pulls all results and
+  # calls Array#first on them.  Ooky.
   def find_first(conditions_hash)
     rekey_hash(conditions_hash)
     result = sql_search(conditions_hash).first
     create_record(result) 
   end
+  
   
   def find_all(conditions_hash={})
     if conditions_hash.empty?

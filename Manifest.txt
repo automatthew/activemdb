@@ -17,6 +17,7 @@ lib/active_mdb/table.rb
 support/a.insert
 test/test_activemdb.rb
 test/test_base.rb
+test/test_column.rb
 test/test_helper.rb
 test/test_mdb.rb
 test/test_mdb_tools.rb
