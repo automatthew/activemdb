@@ -46,8 +46,8 @@ class Column
     end
   end
   
-  def self.string_to_time(value)
-    DateTime.strptime(value, '%m/%d/%y %H:%M:%S')
+  def self.string_to_time(string)
+    string
   end
   
   # provided any argument, returns the mdb-tools version 

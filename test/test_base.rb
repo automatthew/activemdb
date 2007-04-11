@@ -18,6 +18,13 @@ class BaseTest < Test::Unit::TestCase
     set_primary_key 'Room'
   end
   
+  class Person < ActiveMDB::Base
+    set_mdb_file RETREAT_DB
+    set_table_name 'tblIndividData'
+    set_primary_key 'IndKey'
+  end
+
+  
   def test_setting_mdb_file
     assert_equal TEST_DB, Employee.mdb_file
   end
@@ -60,10 +67,12 @@ class BaseTest < Test::Unit::TestCase
   def test_instantiate
     hash = {"Department"=>"Engineering", "Gender"=>"M", "Room"=>"6072", "Title"=>"Programmer", "Emp_Id"=>"1045", "First_Name"=>"Robert", "Last_Name"=>"Weinfeld"}
     record = Employee.send(:instantiate, hash)
-    assert_equal hash, record.instance_variable_get('@attributes')
+    methodized_hash = {}
+    hash.each {|k,v| methodized_hash[MDBTools.methodize(k)] = v}
+    assert_equal methodized_hash, record.instance_variable_get('@attributes')
     hash = {"Area"=>"135.38","Entity_Handle"=>"9D7A","Room"=>"6004","Room_Type"=>"STOR-GEN"}
     record = Room.send(:instantiate, hash)
-    assert_kind_of Float, record.instance_variable_get('@attributes')['Area']
+    assert_kind_of Float, record.instance_variable_get('@attributes')['area']
   end
   
   def test_find_from_hash

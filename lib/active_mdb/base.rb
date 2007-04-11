@@ -152,7 +152,7 @@ module ActiveMDB
         new_hash = {}
         record.each do |name,value|
           # begin
-            new_hash[name] = column_for(name).type_cast(value)
+            new_hash[MDBTools.methodize(name)] = column_for(name).type_cast(value)
           # rescue
           #   raise "No column for #{name}"
           # end
@@ -166,7 +166,7 @@ module ActiveMDB
     private
     
     def method_missing(method_id, *args, &block)
-       method_name = method_id.to_s
+       method_name = MDBTools.methodize(method_id.to_s)
        if @attributes.include?(method_name)
          value = @attributes[method_name]
        else
