@@ -106,10 +106,15 @@ class BaseTest < Test::Unit::TestCase
     assert_equal 2, Employee.find_all(:First_Name => 'G').size
   end
   
-  def test_column_for
-    assert_kind_of Column, Employee.column_for(:Room)
-    assert_nil Employee.column_for('foo')
+  def test_column_for_field
+    assert_kind_of Column, Employee.column_for_field(:Room)
+    assert_nil Employee.column_for_field('foo')
   end
+  
+  def test_column_for_method
+    assert_kind_of Column, Employee.column_for_method(:room)
+  end
+
   
 
 end

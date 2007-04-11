@@ -14,6 +14,8 @@ class ColumnTest < Test::Unit::TestCase
     assert_equal false, @c1.type_cast(0)
   end
   
+
+  
   # def test_string_to_time
   #   time = '05/18/76 00:00:00'
   #   t2 = "02/17/47 00:00:00"

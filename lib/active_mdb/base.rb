@@ -128,22 +128,27 @@ module ActiveMDB
       # e.g. search_with_hash(:first_name => 'Matthew', :last_name => 'King')
       def conditions_from_hash(hash)
         MDBTools.compile_conditions(hash) do |column_name, value|
-          column = column_for(column_name)
+          column = column_for_method(column_name) || column_for_field(column_name)
+          raise ArgumentError, "No column corresponding to #{column_name}" unless column
           case column.klass.to_s
           when 'Fixnum', 'Float'
-            "#{column_name} = #{value}"
+            "#{column.name} = #{value}"
           when 'String'
-            "#{column_name} LIKE '%#{value}%'"
+            "#{column.name} LIKE '%#{value}%'"
           when 'Object'
             value = value ? 1 : 0
-            "#{column_name} IS #{value}"
+            "#{column.name} IS #{value}"
           end
         end
       end
       
       # given the name of a column, return the Column object
-      def column_for(column_name)
+      def column_for_field(column_name)
         columns.detect {|c| c.name == column_name.to_s}
+      end
+      
+      def column_for_method(method_name)
+        columns.detect {|c| c.method_name == method_name.to_s}
       end
       
       private
@@ -152,7 +157,7 @@ module ActiveMDB
         new_hash = {}
         record.each do |name,value|
           # begin
-            new_hash[MDBTools.methodize(name)] = column_for(name).type_cast(value)
+            new_hash[MDBTools.methodize(name)] = column_for_field(name).type_cast(value)
           # rescue
           #   raise "No column for #{name}"
           # end
