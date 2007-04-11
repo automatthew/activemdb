@@ -46,6 +46,10 @@ class Column
     end
   end
   
+  def self.string_to_time(value)
+    
+  end
+  
   # provided any argument, returns the mdb-tools version 
   # of truth (which is to say, 1 or 0)
   def self.value_to_boolean(value)

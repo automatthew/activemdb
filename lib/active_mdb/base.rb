@@ -151,11 +151,11 @@ module ActiveMDB
       def instantiate(record)
         new_hash = {}
         record.each do |name,value|
-          begin
+          # begin
             new_hash[name] = column_for(name).type_cast(value)
-          rescue
-            raise "No column for #{name}"
-          end
+          # rescue
+          #   raise "No column for #{name}"
+          # end
         end
         self.new new_hash
       end

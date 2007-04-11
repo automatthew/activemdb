@@ -14,6 +14,10 @@ class ColumnTest < Test::Unit::TestCase
     assert_equal false, @c1.type_cast(0)
   end
   
-
+  def test_string_to_time
+    time = '05/18/76 00:00:00'
+    assert_equal 1976, DateTime.strptime(time, '%m/%d/%y %H:%M:%S').year
+    assert_equal 5, DateTime.strptime(time, '%m/%d/%y %H:%M:%S').month
+  end
   
 end
