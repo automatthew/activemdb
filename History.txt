@@ -1,4 +1,8 @@
-== 0.1.0 / 2007-02-22
+== 0.2.1 / 2007-04-10
+
+Added typecasting so that the strings returned from mdb-sql become happy appropriate Ruby things.
+
 == 0.2.0 / 2007-04-05
+== 0.1.0 / 2007-02-22
 
 
