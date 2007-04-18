@@ -1,3 +1,9 @@
+== 0.2.2 / 2007-04-18
+
+Reworked conditions_hash call to handle either field or method names.
+Methodized the attributes hash for Base.
+Added much documentation
+
 == 0.2.1 / 2007-04-10
 
 Added typecasting so that the strings returned from mdb-sql become happy appropriate Ruby things.
