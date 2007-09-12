@@ -79,10 +79,7 @@ module ActiveMDB
       
       # the conditions hash keys are column names, the values are search values
       # find_all :superhero_name => 'The Ironist', :powers => 'Wit'
-      #
-      # mdb-sql doesn't implement LIMIT yet, so this method pulls all results and
-      # calls Array#first on them.  Ooky.
-      def find_all(conditions_hash)
+      def find_all(conditions_hash = {})
         find_from_hash(conditions_hash)
       end
           
@@ -127,6 +124,7 @@ module ActiveMDB
       # the conditions hash keys are column names, the values are search values
       # e.g. search_with_hash(:first_name => 'Matthew', :last_name => 'King')
       def conditions_from_hash(hash)
+        return nil if hash.nil? || hash.empty?
         MDBTools.compile_conditions(hash) do |column_name, value|
           column = column_for_method(column_name) || column_for_field(column_name)
           raise ArgumentError, "No column corresponding to #{column_name}" unless column

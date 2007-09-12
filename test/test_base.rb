@@ -102,8 +102,13 @@ class BaseTest < Test::Unit::TestCase
   end
   
   
-  def test_find_all
+  def test_find_all_with_arg
     assert_equal 2, Employee.find_all(:First_Name => 'G').size
+  end
+  
+  def test_find_all_without_arg
+    assert_nothing_raised { @employees = Employee.find_all }
+    assert_kind_of Employee, @employees.first
   end
   
   def test_column_for_field
