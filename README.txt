@@ -4,9 +4,7 @@ http://rubyforge.org/projects/activemdb/
 
 == DESCRIPTION:
   
-Library for getting info out of MS Access (.mdb) files, which uses ActiveRecord-ish reflection to parse table and column names. 
-
-Intended for exploration and migration, not production. And it's *READ ONLY*, so don't try to get fresh. ActiveMDB provides a wrapper of varying thickness around the utilities from Brian Bruns's MDB Tools project (http://mdbtools.sourceforge.net/).  Kudos to Mr. Bruns.
+ActiveMDB is a developer's tool for exploration and migration of MS Access (.mdb) files. It uses ActiveRecord-ish reflection to parse table and column names and provide attribute readers.  Yes, it is  *READ ONLY*. ActiveMDB is little more than a wrapper of varying thickness around the utilities from Brian Bruns's MDB Tools project (http://mdbtools.sourceforge.net/).  Kudos to Mr. Bruns.
 
 == FEATURES/PROBLEMS:
   
