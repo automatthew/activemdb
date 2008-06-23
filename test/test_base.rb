@@ -17,12 +17,6 @@ class BaseTest < Test::Unit::TestCase
     set_table_name 'Room'
     set_primary_key 'Room'
   end
-  
-  class Person < ActiveMDB::Base
-    set_mdb_file RETREAT_DB
-    set_table_name 'tblIndividData'
-    set_primary_key 'IndKey'
-  end
 
   
   def test_setting_mdb_file
