@@ -84,13 +84,36 @@ module MDBTools
       pipe.close_write
       pipe.readline
       fields = pipe.readline.chomp.split(DELIMITER)
+      
+      hash = {}
+      field_count = 0
+      column_count = 0
+      premature_eol = 0
       pipe.each do |row|
-        hash = {}
-        row = row.chomp.split(DELIMITER)
-        fields.each_index do |i|
-          hash[fields[i]] = row[i]
+        if field_count == 0
+          hash = {}
         end
-        array << hash
+        columns = row.chomp.split(DELIMITER)
+
+        column_count += columns.length
+        premature_eol += 1 if column_count < fields.length
+        columns.each do |col|
+          if hash.has_key?(fields[field_count].to_s)
+            hash[fields[field_count]] = hash[fields[field_count]] + " " + col
+          else
+            hash[fields[field_count]] = col
+          end
+          if field_count >= fields.length-1
+            array << hash
+            field_count = 0
+            column_count = 0
+            premature_eol = 0
+          else
+            if field_count < column_count-premature_eol  
+              field_count += 1
+            end
+          end
+        end
       end
     end
     array
@@ -98,7 +121,8 @@ module MDBTools
 
   # uses mdb-sql to retrieve an array of the table's field names
   def field_names_for(mdb_file, table)
-    fields = `echo -n 'select * from #{table} where 1 = 2' | mdb-sql -Fp -d '#{DELIMITER}' #{mdb_file}`.chomp.sub(/^\n+/, '')
+    command = "echo 'select * from #{table} where 1 = 2' | mdb-sql -Fp -d '#{DELIMITER}' #{mdb_file}"
+    fields = `#{command}`.chomp.sub(/^\n+/, '')
     fields.split(DELIMITER)
   end
   
