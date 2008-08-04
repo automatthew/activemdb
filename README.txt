@@ -43,6 +43,12 @@ ActiveMDB is a developer's tool for exploration and migration of MS Access (.mdb
 
 * Sadly, no easy install of MDB Tools at this time.  It compiles on Mac OS X 10.4.x, both PPC and Intel.  Haven't tested on Linuxes yet, but that's what Parallels is for, right?
 
+== Some blog posts
+
+* http://www.automatthew.com/2007/04/activemdb-for-that-not-so-fresh-feeling.html
+* http://www.automatthew.com/2008/02/how-to-compile-mdbtools-on-mac-os-x.html
+* http://www.automatthew.com/2007/04/whats-better-than-activemdb.html
+
 == LICENSE:
 
 (The MIT License)

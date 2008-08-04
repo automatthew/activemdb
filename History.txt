@@ -1,3 +1,7 @@
+== 0.2.3 / 2008-08-04
+
+Patches from kind folks.
+
 == 0.2.2 / 2007-04-18
 
 Reworked conditions_hash call to handle either field or method names.
