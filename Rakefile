@@ -12,6 +12,7 @@ Hoe.new('activemdb', ActiveMDB::VERSION) do |p|
   p.description = p.paragraphs_of('README.txt', 2).join("\n\n")
   p.url = 'http://activemdb.rubyforge.org/'
   p.changes = p.paragraphs_of('History.txt', 0..1).join("\n\n")
+  p.extra_deps = [['fastercsv', '>=1.2.3']]
 end
 
 # vim: syntax=Ruby

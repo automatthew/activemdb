@@ -2,9 +2,7 @@ History.txt
 Manifest.txt
 README.txt
 Rakefile
-db/.DS_Store
 db/not_an_mdb.txt
-db/retreat.mdb
 db/sample.mdb
 irb.rc
 lib/active_mdb.rb
