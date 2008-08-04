@@ -121,7 +121,8 @@ module MDBTools
 
   # uses mdb-sql to retrieve an array of the table's field names
   def field_names_for(mdb_file, table)
-    fields = `echo -n 'select * from #{table} where 1 = 2' | mdb-sql -Fp -d '#{DELIMITER}' #{mdb_file}`.chomp.sub(/^\n+/, '')
+    command = "echo 'select * from #{table} where 1 = 2' | mdb-sql -Fp -d '#{DELIMITER}' #{mdb_file}"
+    fields = `#{command}`.chomp.sub(/^\n+/, '')
     fields.split(DELIMITER)
   end
   
