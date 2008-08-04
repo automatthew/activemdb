@@ -1,6 +1,6 @@
 require 'test/unit'
-  TEST_DB =  File.join(File.dirname(__FILE__), '..', 'db', 'sample.mdb')
-  NOT_A_DB =  File.join(File.dirname(__FILE__), '..', 'db', 'not_an_mdb.txt')
+  TEST_DB =  File.join(File.dirname(__FILE__), 'mdb_files', 'sample.mdb')
+  NOT_A_DB =  File.join(File.dirname(__FILE__), 'mdb_files', 'not_an_mdb.txt')
 
 class Test::Unit::TestCase
   

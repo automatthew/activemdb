@@ -12,6 +12,7 @@ load 'active_mdb/table.rb'
 load 'active_mdb/record.rb'
 load 'active_mdb/column.rb'
 load 'active_mdb/base.rb'
+gem 'fastercsv'
 require 'faster_csv'
 
 
