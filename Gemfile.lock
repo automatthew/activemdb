@@ -1,0 +1,16 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    activesupport (3.2.19)
+      i18n (~> 0.6, >= 0.6.4)
+      multi_json (~> 1.0)
+    fastercsv (1.5.5)
+    i18n (0.7.0)
+    multi_json (1.11.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activesupport (= 3.2.19)
+  fastercsv (>= 1.2.3)
