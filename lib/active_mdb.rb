@@ -6,7 +6,6 @@ end
 
 require 'rubygems'
 require 'active_support'
-require 'facets/module/cattr'
 require 'active_mdb/mdb_tools'
 load 'active_mdb/mdb.rb'
 load 'active_mdb/table.rb'
