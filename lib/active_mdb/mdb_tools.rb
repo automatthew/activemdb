@@ -177,7 +177,7 @@ module MDBTools
     
     args << "-H " unless options[:headers] == true
     args << "-S" unless options[:sanitize] == false
-    `mdb-export #{args} #{mdb_file} #{table_name.to_s.dump}`
+    `mdb-export #{args.join} #{mdb_file} #{table_name.to_s.dump}`
   end
   
   # wrapper for DESCRIBE TABLE using mdb-sql
