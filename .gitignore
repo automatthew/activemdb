@@ -1,0 +1,4 @@
+# Ignore bundler config
+/.bundle
+.ruby-gemset
+.ruby-version
