@@ -1,9 +1,6 @@
 $:.unshift(File.dirname(__FILE__))
-module ActiveMDB
-  VERSION = '0.2.3'
-end
 
-
+require 'active_mdb/version'
 require 'rubygems'
 require 'active_support/core_ext'
 require 'active_mdb/mdb_tools'
