@@ -159,7 +159,7 @@ module MDBTools
   # which correspond rather directly to the underlying mdb-export arguments.
   # Defaults to :format => 'sql', :headers => false, :sanitize => true
   def mdb_export(mdb_file, table_name, options = {})
-    defaults = {  :format => 'sql',
+    defaults = {  :format => 'mysql',
                   :headers => false,
                   :sanitize => true  }
     options = defaults.merge options
@@ -167,8 +167,8 @@ module MDBTools
     args = []
     if options[:delimiter]
       args << "-d #{options[:delimiter].dump}"
-    elsif options[:format] == 'sql'
-      args << "-I "
+    elsif options[:format] == 'mysql'
+      args << "-I mysql "
     elsif options[:format] == 'csv'
       args << "-d ',' "
     else
