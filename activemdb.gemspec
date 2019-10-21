@@ -19,7 +19,7 @@ Gem::Specification.new do |gem|
   gem.require_paths = ["lib"]
   gem.required_rubygems_version = Gem::Requirement.new(">= 1.8.15")
 
-  gem.add_dependency("activesupport", "= 3.2.19")
+  gem.add_dependency("activesupport", "= 4.1.11")
   gem.add_dependency("fastercsv", ">= 1.2.3")
 
   gem.add_development_dependency("rake")

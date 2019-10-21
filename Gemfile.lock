@@ -1,16 +1,25 @@
 GEM
   remote: https://rubygems.org/
   specs:
-    activesupport (3.2.19)
-      i18n (~> 0.6, >= 0.6.4)
-      multi_json (~> 1.0)
+    activesupport (4.1.11)
+      i18n (~> 0.6, >= 0.6.9)
+      json (~> 1.7, >= 1.7.7)
+      minitest (~> 5.1)
+      thread_safe (~> 0.1)
+      tzinfo (~> 1.1)
+    concurrent-ruby (1.1.5)
     fastercsv (1.5.5)
-    i18n (0.7.0)
-    multi_json (1.11.0)
+    i18n (0.9.5)
+      concurrent-ruby (~> 1.0)
+    json (1.8.6)
+    minitest (5.12.2)
+    thread_safe (0.3.6)
+    tzinfo (1.2.5)
+      thread_safe (~> 0.1)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  activesupport (= 3.2.19)
+  activesupport (= 4.1.11)
   fastercsv (>= 1.2.3)
